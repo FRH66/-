@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="创意名字生成器 - 将食品品牌与人物名称巧妙组合，生成独特有趣的名字">
+    <meta name="keywords" content="名字生成器, 创意名字, 食品人物组合, 趣味名字">
+    <title>创意名字生成器 - 食品与人物的奇妙组合</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- 配置Tailwind自定义颜色和字体 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#10B981',
+                        accent: '#F59E0B',
+                        dark: '#1F2937',
+                        light: '#F3F4F6'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            }
+            .text-shadow-lg {
+                text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            }
+            .transition-custom {
+                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            }
+            .bg-glass {
+                background: rgba(255, 255, 255, 0.85);
+                backdrop-filter: blur(8px);
+            }
+            .animate-float {
+                animation: float 6s ease-in-out infinite;
+            }
+            @keyframes float {
+                0% { transform: translateY(0px); }
+                50% { transform: translateY(-20px); }
+                100% { transform: translateY(0px); }
+            }
+            .pulse-effect {
+                animation: pulse 2s infinite;
+            }
+            @keyframes pulse {
+                0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+                70% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0); }
+                100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+            }
+            .slide-in {
+                animation: slideIn 0.5s ease-out forwards;
+            }
+            @keyframes slideIn {
+                from { transform: translateY(20px); opacity: 0; }
+                to { transform: translateY(0); opacity: 1; }
+            }
+            .fade-in {
+                animation: fadeIn 0.5s ease-out forwards;
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+            .bounce-in {
+                animation: bounceIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            }
+            @keyframes bounceIn {
+                0% { transform: scale(0.3); opacity: 0; }
+                50% { transform: scale(1.05); }
+                70% { transform: scale(0.9); }
+                100% { transform: scale(1); opacity: 1; }
+            }
+            .highlight {
+                animation: highlight 1s ease-out;
+            }
+            @keyframes highlight {
+                0% { background-color: rgba(245, 158, 11, 0.2); }
+                100% { background-color: transparent; }
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen font-sans text-dark overflow-x-hidden">
+    <!-- 导航栏 -->
+    <header>
+        <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-4">
+            <div class="container mx-auto px-4 flex justify-between items-center">
+                <a href="#" class="flex items-center gap-2 text-primary font-bold text-xl">
+                    <i class="fa fa-magic"></i>
+                    <span>创意名字生成器</span>
+                </a>
+                <div class="hidden md:flex items-center gap-6">
+                    <a href="#features" class="text-gray-600 hover:text-primary transition-colors">功能</a>
+                    <a href="#examples" class="text-gray-600 hover:text-primary transition-colors">示例</a>
+                    <a href="#how-it-works" class="text-gray-600 hover:text-primary transition-colors">使用方法</a>
+                    <a href="#about" class="text-gray-600 hover:text-primary transition-colors">关于</a>
+                    <button id="themeToggle" class="w-10 h-10 rounded-full bg-white/80 flex items-center justify-center shadow-md hover:shadow-lg transition-all">
+                        <i class="fa fa-moon-o text-gray-600"></i>
+                    </button>
+                </div>
+                <button id="mobileMenuBtn" class="md:hidden text-gray-600">
+                    <i class="fa fa-bars text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- 移动端菜单 -->
+            <div id="mobileMenu" class="hidden md:hidden absolute top-full left-0 right-0 bg-white shadow-lg rounded-b-2xl p-4 slide-in z-50">
+                <div class="flex flex-col gap-4">
+                    <a href="#features" class="text-gray-600 hover:text-primary transition-colors py-2">功能</a>
+                    <a href="#examples" class="text-gray-600 hover:text-primary transition-colors py-2">示例</a>
+                    <a href="#how-it-works" class="text-gray-600 hover:text-primary transition-colors py-2">使用方法</a>
+                    <a href="#about" class="text-gray-600 hover:text-primary transition-colors py-2">关于</a>
+                    <button id="mobileThemeToggle" class="w-full py-2 rounded-lg bg-gray-100 flex items-center justify-center gap-2">
+                        <i class="fa fa-moon-o text-gray-600"></i>
+                        <span>切换主题</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden pt-16">
+        <!-- 背景装饰元素 -->
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/20 rounded-full blur-3xl animate-float"></div>
+            <div class="absolute bottom-1/3 right-1/3 w-80 h-80 bg-accent/20 rounded-full blur-3xl animate-float" style="animation-delay: 2s"></div>
+            <div class="absolute top-2/3 left-1/2 w-72 h-72 bg-secondary/20 rounded-full blur-3xl animate-float" style="animation-delay: 4s"></div>
+        </div>
+        
+        <!-- 英雄内容 -->
+        <div class="container mx-auto px-4 z-10 text-center">
+            <div class="max-w-3xl mx-auto">
+                <div class="mb-6 inline-block bounce-in">
+                    <div class="bg-white p-3 rounded-full shadow-lg">
+                        <i class="fa fa-magic text-4xl text-accent"></i>
+                    </div>
+                </div>
+                <h1 class="text-[clamp(2.5rem,8vw,5rem)] font-bold text-primary mb-6 leading-tight text-shadow-lg fade-in" style="animation-delay: 0.2s">
+                    创意名字<br class="hidden sm:block">生成器
+                </h1>
+                <p class="text-[clamp(1.1rem,3vw,1.5rem)] text-gray-700 mb-10 max-w-2xl mx-auto fade-in" style="animation-delay: 0.4s">
+                    探索食品与人物的奇妙组合，创造独一无二的趣味名字
+                </p>
+                <button id="startBtn" class="bg-primary hover:bg-primary/90 text-white font-semibold px-8 py-4 rounded-full text-lg shadow-xl transform hover:scale-105 transition-custom flex items-center gap-2 mx-auto fade-in" style="animation-delay: 0.6s">
+                    <span>开始探索</span>
+                    <i class="fa fa-arrow-down"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 滚动提示 -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <i class="fa fa-angle-double-down text-primary/70 text-2xl"></i>
+        </div>
+    </section>
+
+    <!-- 主要内容区域 -->
+    <main class="container mx-auto px-4 py-16 max-w-5xl">
+        <!-- 简介部分 -->
+        <section class="text-center mb-16">
+            <h2 class="text-[clamp(1.8rem,5vw,2.5rem)] font-bold text-dark mb-6">
+                独特的名字组合方式
+            </h2>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                输入任何食品品牌或人物名称，选择对应的类别，我们将为您智能匹配并生成5个创意组合名字。
+                新输入的内容会自动添加到数据库中，丰富未来的组合可能性。
+            </p>
+        </section>
+        
+        <!-- 主功能区 -->
+        <section id="generator" class="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-16 transform hover:shadow-2xl transition-custom">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">开始生成</h2>
+                <p class="text-gray-600">输入内容，获取独特的创意名字组合</p>
+            </div>
+            
+            <!-- 输入区域 -->
+            <div class="mb-8">
+                <label class="block text-gray-700 font-medium mb-2 text-lg">
+                    请选择输入类型并输入内容:
+                </label>
+                
+                <!-- 类型选择器 -->
+                <div class="mb-4">
+                    <div class="inline-flex p-1 bg-gray-100 rounded-lg">
+                        <button type="button" id="typeFood" class="category-btn px-5 py-2 rounded-md bg-primary text-white font-medium transition-custom">
+                            <i class="fa fa-cutlery mr-2"></i>食品品牌
+                        </button>
+                        <button type="button" id="typePerson" class="category-btn px-5 py-2 rounded-md text-gray-700 font-medium transition-custom">
+                            <i class="fa fa-user mr-2"></i>人物名称
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <input 
+                        type="text" 
+                        id="userInput" 
+                        placeholder="例如：选择食品则输入'可乐'，选择人物则输入'关羽'" 
+                        class="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-custom"
+                    >
+                    <button 
+                        id="generateBtn" 
+                        class="bg-primary hover:bg-primary/90 text-white font-medium px-6 py-3 rounded-lg flex items-center justify-center gap-2 transform hover:scale-105 transition-custom"
+                    >
+                        <i class="fa fa-refresh"></i>
+                        <span>生成名字</span>
+                    </button>
+                </div>
+                <p class="text-gray-500 text-sm mt-2 italic">
+                    提示：输入"q"可以清除内容，新输入的内容会自动添加到数据库
+                </p>
+            </div>
+            
+            <!-- 一键随机生成按钮 -->
+            <div class="mb-8">
+                <button 
+                    id="randomBtn" 
+                    class="w-full bg-accent hover:bg-accent/90 text-white font-medium px-6 py-3 rounded-lg flex items-center justify-center gap-2 transform hover:scale-[1.02] transition-custom pulse-effect"
+                >
+                    <i class="fa fa-random"></i>
+                    <span>一键随机生成</span>
+                </button>
+                <p class="text-gray-500 text-sm mt-2 italic text-center">
+                    点击此按钮直接生成5个随机组合，可多次点击刷新
+                </p>
+            </div>
+            
+            <!-- 结果展示区域 -->
+            <div id="results" class="hidden">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xl font-semibold text-gray-800">
+                        <i class="fa fa-star text-accent mr-2"></i>生成的名字
+                    </h2>
+                    <button id="copyBtn" class="text-primary hover:text-primary/80 text-sm flex items-center gap-1 transition-custom">
+                        <i class="fa fa-copy"></i>
+                        <span>复制全部</span>
+                    </button>
+                </div>
+                
+                <div id="namesList" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- 名字将通过JavaScript动态插入 -->
+                </div>
+                
+                <!-- 操作按钮 -->
+                <div class="mt-6 flex justify-center gap-4">
+                    <button id="saveBtn" class="bg-secondary hover:bg-secondary/90 text-white font-medium px-5 py-2 rounded-lg flex items-center gap-2 transition-custom">
+                        <i class="fa fa-heart-o"></i>
+                        <span>保存喜欢的名字</span>
+                    </button>
+                    <button id="anotherBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium px-5 py-2 rounded-lg flex items-center gap-2 transition-custom">
+                        <i class="fa fa-refresh"></i>
+                        <span>再生成一组</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 信息提示区域 -->
+            <div id="info" class="hidden bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i class="fa fa-info-circle text-blue-500"></i>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm text-blue-700" id="infoMessage"></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 错误提示区域 -->
+            <div id="error" class="hidden bg-red-50 border-l-4 border-red-400 p-4 rounded">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i class="fa fa-exclamation-circle text-red-500"></i>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm text-red-700" id="errorMessage"></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 成功提示区域 -->
+            <div id="success" class="hidden bg-green-50 border-l-4 border-green-400 p-4 rounded">
+                <div class="flex">
+                    <div class="flex-shrink-0">
+                        <i class="fa fa-check-circle text-green-500"></i>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm text-green-700" id="successMessage"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 收藏区域 -->
+        <section id="savedNames" class="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-16">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">我的收藏</h2>
+                <p class="text-gray-600">保存您喜欢的创意名字组合</p>
+            </div>
+            
+            <div id="savedList" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <p class="col-span-full text-center text-gray-500 py-6 italic">您还没有收藏任何名字，点击"保存喜欢的名字"按钮添加</p>
+            </div>
+            <button id="clearSavedBtn" class="mt-4 text-gray-500 hover:text-red-500 text-sm flex items-center gap-1 transition-custom">
+                <i class="fa fa-trash-o"></i>
+                <span>清空收藏</span>
+            </button>
+        </section>
+        
+        <!-- 数据库统计 -->
+        <section class="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-16">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">数据库统计</h2>
+                <p class="text-gray-600">我们的数据库正在不断增长</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                    <h3 class="font-medium text-gray-700 mb-2 flex items-center">
+                        <i class="fa fa-cutlery text-primary mr-2"></i>食品品牌
+                    </h3>
+                    <div class="flex items-end gap-2">
+                        <span id="foodCount" class="text-3xl font-bold text-primary">0</span>
+                        <span class="text-gray-500 mb-1">个条目</span>
+                    </div>
+                </div>
+                <div class="bg-green-50 p-4 rounded-lg border border-green-100">
+                    <h3 class="font-medium text-gray-700 mb-2 flex items-center">
+                        <i class="fa fa-user text-secondary mr-2"></i>人物名称
+                    </h3>
+                    <div class="flex items-end gap-2">
+                        <span id="personCount" class="text-3xl font-bold text-secondary">0</span>
+                        <span class="text-gray-500 mb-1">个条目</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 示例展示区 -->
+        <section id="examples" class="mb-16">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">示例名字</h2>
+                <p class="text-gray-600">看看这些有趣的组合能给您带来什么灵感</p>
+            </div>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                <div class="bg-white p-3 rounded-lg shadow text-center text-sm hover:shadow-md transition-custom transform hover:-translate-y-1">旺仔小乔</div>
+                <div class="bg-white p-3 rounded-lg shadow text-center text-sm hover:shadow-md transition-custom transform hover:-translate-y-1">可乐刘备</div>
+                <div class="bg-white p-3 rounded-lg shadow text-center text-sm hover:shadow-md transition-custom transform hover:-translate-y-1">雪碧关羽</div>
+                <div class="bg-white p-3 rounded-lg shadow text-center text-sm hover:shadow-md transition-custom transform hover:-translate-y-1">红牛张飞</div>
+                <div class="bg-white p-3 rounded-lg shadow text-center text-sm hover:shadow-md transition-custom transform hover:-translate-y-1">脉动赵云</div>
+                <div class="bg-white p-3 rounded-lg shadow text-center text-sm hover:shadow-md transition-custom transform hover:-translate-y-1">奈雪曹操</div>
+                <div class="bg-white p-3 rounded-lg shadow text-center text-sm hover:shadow-md transition-custom transform hover:-translate-y-1">喜茶孙权</div>
+                <div class="bg-white p-3 rounded-lg shadow text-center text-sm hover:shadow-md transition-custom transform hover:-translate-y-1">蜜雪周瑜</div>
+                <div class="bg-white p-3 rounded-lg shadow text-center text-sm hover:shadow-md transition-custom transform hover:-translate-y-1">椰树吕布</div>
+                <div class="bg-white p-3 rounded-lg shadow text-center text-sm hover:shadow-md transition-custom transform hover:-translate-y-1">露露貂蝉</div>
+            </div>
+        </section>
+        
+        <!-- 使用方法 -->
+        <section id="how-it-works" class="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-16">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">使用方法</h2>
+                <p class="text-gray-600">简单三步，生成创意名字</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-primary font-bold text-2xl">1</span>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-3">选择类型</h3>
+                    <p class="text-gray-600">选择您要输入的是食品品牌还是人物名称</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-primary font-bold text-2xl">2</span>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-3">输入内容</h3>
+                    <p class="text-gray-600">输入具体的食品品牌或人物名称，新内容会自动添加到数据库</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-primary font-bold text-2xl">3</span>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-3">生成名字</h3>
+                    <p class="text-gray-600">点击生成按钮，获取5个创意组合名字，也可以一键随机生成</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 特色介绍 -->
+        <section id="features" class="mb-16">
+            <div class="text-center mb-10">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">为什么选择我们</h2>
+                <p class="text-gray-600">我们的名字生成器有这些优势</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-custom text-center transform hover:-translate-y-2">
+                    <div class="w-14 h-14 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa fa-bolt text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-2">智能学习</h3>
+                    <p class="text-gray-600">自动添加新输入的内容到数据库，越用越丰富</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-custom text-center transform hover:-translate-y-2">
+                    <div class="w-14 h-14 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa fa-random text-accent text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-2">随机灵感</h3>
+                    <p class="text-gray-600">一键随机生成功能，轻松获取意想不到的组合</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-custom text-center transform hover:-translate-y-2">
+                    <div class="w-14 h-14 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa fa-bookmark text-secondary text-2xl"></i>
+                    </div>
+                    <h3 class="font-semibold text-lg mb-2">收藏功能</h3>
+                    <p class="text-gray-600">保存喜欢的名字组合，随时查看和使用</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 关于部分 -->
+        <section id="about" class="bg-white rounded-2xl shadow-xl p-6 md:p-8 mb-16">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">关于本工具</h2>
+                <p class="text-gray-600">了解更多关于创意名字生成器的信息</p>
+            </div>
+            
+            <p class="text-gray-600 mb-4">
+                创意名字生成器是一个有趣的工具，通过将食品品牌与人物名字进行组合，创造出独特而有趣的名字。
+                系统会自动学习新输入的内容，不断丰富数据库，为您提供更多样化的组合。
+            </p>
+            <p class="text-gray-600 mb-4">
+                所有生成的名字仅用于娱乐目的，您可以将它们用于游戏昵称、创意写作、社交账号等场景。
+            </p>
+            <p class="text-gray-600">
+                您的收藏数据和新增的数据库内容仅存储在本地浏览器中，不会上传到任何服务器，确保您的使用安全和隐私保护。
+            </p>
+        </section>
+    </main>
+    
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-12">
+        <div class="container mx-auto px-4 max-w-5xl">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                        <i class="fa fa-magic text-accent"></i>
+                        <span>创意名字生成器</span>
+                    </h3>
+                    <p class="text-gray-400 text-sm">
+                        探索食品与人物的奇妙组合，创造独一无二的趣味名字
+                    </p>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">快速链接</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">首页</a></li>
+                        <li><a href="#features" class="hover:text-white transition-colors">功能</a></li>
+                        <li><a href="#examples" class="hover:text-white transition-colors">示例</a></li>
+                        <li><a href="#about" class="hover:text-white transition-colors">关于</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">使用指南</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#how-it-works" class="hover:text-white transition-colors">使用方法</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">常见问题</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">使用技巧</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">联系我们</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li class="flex items-center gap-2">
+                            <i class="fa fa-envelope-o"></i>
+                            <a href="mailto:contact@example.com" class="hover:text-white transition-colors">contact@example.com</a>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <i class="fa fa-github"></i>
+                            <a href="#" class="hover:text-white transition-colors">GitHub</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-8 text-center text-gray-500 text-sm">
+                <p>© 2023 创意名字生成器 | 食品与人物的奇妙组合</p>
+                <div class="flex justify-center gap-4 mt-4">
+                    <a href="#" class="hover:text-white transition-colors">隐私政策</a>
+                    <span>|</span>
+                    <a href="#" class="hover:text-white transition-colors">使用条款</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- 回到顶部按钮 -->
+    <button id="backToTop" class="fixed bottom-6 right-6 bg-primary text-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg transform hover:scale-110 transition-custom opacity-0 invisible z-40">
+        <i class="fa fa-arrow-up"></i>
+    </button>
+    
+    <!-- 数据和逻辑脚本 -->
+    <script>
+        // 从本地存储加载或初始化食品列表
+        let foods = JSON.parse(localStorage.getItem('foods')) || [
+            // 饮料
+            "可乐", "雪碧", "芬达", "七喜", "美年达",
+            "旺仔", "红牛", "脉动", "尖叫", "激活",
+            "营养快线", "阿萨姆", "加多宝", "王老吉",
+            "椰树", "露露", "六个核桃", "养乐多",
+            "农夫山泉", "怡宝", "冰峰", "健力宝", "乐虎",
+            "魔爪", "水溶C100", "优酸乳", "蒙牛", "伊利",
+            "奈雪", "喜茶", "蜜雪冰城", "茶颜悦色", "书亦",
+            "古茗", "沪上阿姨", "益禾堂", "CoCo", "一点点",
+            
+            // 零食
+            "旺旺", "徐福记", "金丝猴", "喜之郎", "康师傅",
+            "统一", "今麦郎", "白象", "日清", "南方黑芝麻",
+            "奥利奥", "趣多多", "乐事", "上好佳", "可比克",
+            "达利园", "盼盼", "三只松鼠", "良品铺子", "百草味",
+            
+            // 其他食品
+            "双汇", "雨润", "三全", "思念", "湾仔码头",
+            "海天", "太太乐", "王守义", "十三香", "李锦记",
+            "涪陵榨菜", "恒顺醋业", "洽洽", "瓜子", "稻香村"
+        ];
+        
+        // 从本地存储加载或初始化人物列表
+        let persons = JSON.parse(localStorage.getItem('persons')) || [
+            // 三国人物
+            "刘备", "关羽", "张飞", "赵云", "马超",
+            "黄忠", "诸葛亮", "庞统", "法正", "魏延",
+            "姜维", "刘禅", "曹操", "曹丕", "曹植",
+            "郭嘉", "荀彧", "荀攸", "贾诩", "程昱",
+            "夏侯惇", "夏侯渊", "张辽", "张郃", "徐晃",
+            "许褚", "典韦", "孙权", "孙策", "孙坚",
+            "周瑜", "鲁肃", "吕蒙", "陆逊", "黄盖",
+            "吕布", "貂蝉", "袁绍", "袁术", "刘表",
+            
+            // 历史名人
+            "孔子", "孟子", "老子", "庄子", "墨子",
+            "孙子", "屈原", "刘邦", "项羽", "韩信",
+            "张良", "萧何", "西施", "王昭君", "杨玉环",
+            "李白", "杜甫", "白居易", "苏轼", "王安石",
+            
+            // 现代名人
+            "鲁迅", "老舍", "巴金", "冰心", "金庸",
+            "古龙", "徐志摩", "梅兰芳", "齐白石", "徐悲鸿"
+        ];
+        
+        // 当前选择的类型（默认食品）
+        let currentType = 'food';
+        
+        // 从本地存储加载收藏的名字
+        let savedNames = JSON.parse(localStorage.getItem('savedNames') || '[]');
+        
+        // DOM元素
+        const userInput = document.getElementById('userInput');
+        const generateBtn = document.getElementById('generateBtn');
+        const randomBtn = document.getElementById('randomBtn');
+        const results = document.getElementById('results');
+        const namesList = document.getElementById('namesList');
+        const error = document.getElementById('error');
+        const errorMessage = document.getElementById('errorMessage');
+        const info = document.getElementById('info');
+        const infoMessage = document.getElementById('infoMessage');
+        const success = document.getElementById('success');
+        const successMessage = document.getElementById('successMessage');
+        const copyBtn = document.getElementById('copyBtn');
+        const startBtn = document.getElementById('startBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const anotherBtn = document.getElementById('anotherBtn');
+        const savedList = document.getElementById('savedList');
+        const clearSavedBtn = document.getElementById('clearSavedBtn');
+        const navbar = document.getElementById('navbar');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const themeToggle = document.getElementById('themeToggle');
+        const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+        const backToTop = document.getElementById('backToTop');
+        const typeFood = document.getElementById('typeFood');
+        const typePerson = document.getElementById('typePerson');
+        const foodCount = document.getElementById('foodCount');
+        const personCount = document.getElementById('personCount');
+        
+        // 当前生成的名字，用于保存功能
+        let currentNames = [];
+        
+        // 初始化页面
+        function init() {
+            renderSavedNames();
+            updateDatabaseCounts();
+            checkDarkMode();
+            saveDatabasesToLocalStorage(); // 确保初始数据保存到本地存储
+        }
+        
+        // 更新数据库统计数字
+        function updateDatabaseCounts() {
+            foodCount.textContent = foods.length;
+            personCount.textContent = persons.length;
+        }
+        
+        // 保存数据库到本地存储
+        function saveDatabasesToLocalStorage() {
+            localStorage.setItem('foods', JSON.stringify(foods));
+            localStorage.setItem('persons', JSON.stringify(persons));
+        }
+        
+        // 切换输入类型
+        function switchType(type) {
+            currentType = type;
+            
+            // 更新按钮样式
+            if (type === 'food') {
+                typeFood.classList.add('bg-primary', 'text-white');
+                typeFood.classList.remove('text-gray-700');
+                typePerson.classList.remove('bg-primary', 'text-white');
+                typePerson.classList.add('text-gray-700');
+                userInput.placeholder = "例如：可乐、旺仔、喜茶";
+            } else {
+                typePerson.classList.add('bg-primary', 'text-white');
+                typePerson.classList.remove('text-gray-700');
+                typeFood.classList.remove('bg-primary', 'text-white');
+                typeFood.classList.add('text-gray-700');
+                userInput.placeholder = "例如：关羽、李白、鲁迅";
+            }
+            
+            // 清空输入框和提示
+            userInput.value = '';
+            hideAllMessages();
+        }
+        
+        // 隐藏所有消息提示
+        function hideAllMessages() {
+            error.classList.add('hidden');
+            info.classList.add('hidden');
+            success.classList.add('hidden');
+        }
+        
+        // 滚动到主内容区
+        startBtn.addEventListener('click', () => {
+            document.getElementById('generator').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+        
+        // 生成名字函数（根据输入和选择的类型）
+        function generateNames(input) {
+            // 清除之前的结果和错误信息
+            results.classList.add('hidden');
+            hideAllMessages();
+            namesList.innerHTML = '';
+            currentNames = [];
+            
+            // 如果输入是'q'，清除输入框
+            if (input.toLowerCase() === 'q') {
+                userInput.value = '';
+                return;
+            }
+            
+            let names = [];
+            let isNewEntry = false;
+            
+            // 根据选择的类型生成名字
+            if (currentType === 'food') {
+                // 检查是否在数据库中
+                const isExisting = foods.includes(input);
+                
+                // 如果不在数据库中，添加进去
+                if (!isExisting) {
+                    foods.push(input);
+                    saveDatabasesToLocalStorage();
+                    updateDatabaseCounts();
+                    isNewEntry = true;
+                }
+                
+                // 随机选择5个不同的人物
+                const usedPersons = new Set();
+                while (names.length < 5 && usedPersons.size < persons.length) {
+                    const randomIndex = Math.floor(Math.random() * persons.length);
+                    const person = persons[randomIndex];
+                    
+                    if (!usedPersons.has(person)) {
+                        usedPersons.add(person);
+                        names.push(`${input}${person}`);
+                    }
+                }
+                
+                // 显示信息提示
+                if (isNewEntry) {
+                    infoMessage.textContent = `"${input}"已添加到食品数据库，现在可以与所有人物组合了！`;
+                    info.classList.remove('hidden');
+                }
+                
+            } else {
+                // 输入是人物，需要与食品组合
+                const isExisting = persons.includes(input);
+                
+                // 如果不在数据库中，添加进去
+                if (!isExisting) {
+                    persons.push(input);
+                    saveDatabasesToLocalStorage();
+                    updateDatabaseCounts();
+                    isNewEntry = true;
+                }
+                
+                // 随机选择5个不同的食品
+                const usedFoods = new Set();
+                while (names.length < 5 && usedFoods.size < foods.length) {
+                    const randomIndex = Math.floor(Math.random() * foods.length);
+                    const food = foods[randomIndex];
+                    
+                    if (!usedFoods.has(food)) {
+                        usedFoods.add(food);
+                        names.push(`${food}${input}`);
+                    }
+                }
+                
+                // 显示信息提示
+                if (isNewEntry) {
+                    infoMessage.textContent = `"${input}"已添加到人物数据库，现在可以与所有食品组合了！`;
+                    info.classList.remove('hidden');
+                }
+            }
+            
+            currentNames = [...names];
+            // 显示生成的名字
+            displayNames(names);
+        }
+        
+        // 随机生成名字函数（不基于输入）
+        function generateRandomNames() {
+            // 清除之前的结果和错误信息
+            results.classList.add('hidden');
+            hideAllMessages();
+            namesList.innerHTML = '';
+            currentNames = [];
+            
+            let names = [];
+            const usedPairs = new Set(); // 用于确保组合不重复
+            
+            // 生成5个不重复的随机组合
+            while (names.length < 5 && usedPairs.size < foods.length * persons.length) {
+                const foodIndex = Math.floor(Math.random() * foods.length);
+                const personIndex = Math.floor(Math.random() * persons.length);
+                const pairKey = `${foodIndex}-${personIndex}`; // 用于标识唯一组合
+                
+                if (!usedPairs.has(pairKey)) {
+                    usedPairs.add(pairKey);
+                    const food = foods[foodIndex];
+                    const person = persons[personIndex];
+                    names.push(`${food}${person}`);
+                }
+            }
+            
+            currentNames = [...names];
+            // 显示生成的名字
+            displayNames(names);
+            
+            // 给按钮添加点击反馈动画
+            randomBtn.classList.add('scale-95');
+            setTimeout(() => {
+                randomBtn.classList.remove('scale-95');
+            }, 150);
+        }
+        
+        // 显示名字的通用函数
+        function displayNames(names) {
+            if (names.length > 0) {
+                names.forEach((name, index) => {
+                    const nameElement = document.createElement('div');
+                    nameElement.className = 'bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-lg border border-blue-100 flex items-center gap-3 hover:shadow-md transition-custom opacity-0 translate-y-4';
+                    nameElement.innerHTML = `
+                        <span class="bg-primary/10 text-primary w-7 h-7 rounded-full flex items-center justify-center font-medium text-sm">${index + 1}</span>
+                        <span class="font-medium">${name}</span>
+                        <button class="ml-auto text-gray-400 hover:text-accent transition-colors save-single" data-name="${name}">
+                            <i class="fa fa-heart-o"></i>
+                        </button>
+                    `;
+                    namesList.appendChild(nameElement);
+                });
+                
+                results.classList.remove('hidden');
+                
+                // 添加动画效果
+                const nameElements = namesList.querySelectorAll('div');
+                nameElements.forEach((el, i) => {
+                    setTimeout(() => {
+                        el.classList.add('opacity-100', 'translate-y-0');
+                        el.classList.remove('opacity-0', 'translate-y-4');
+                    }, 100 * i);
+                });
+                
+                // 为单个保存按钮添加事件
+                document.querySelectorAll('.save-single').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const name = this.getAttribute('data-name');
+                        const saved = saveSingleName(name);
+                        if (saved) {
+                            this.innerHTML = '<i class="fa fa-heart text-accent"></i>';
+                            // 添加高亮动画
+                            this.closest('div').classList.add('highlight');
+                        }
+                    });
+                });
+            }
+        }
+        
+        // 复制全部名字到剪贴板
+        function copyToClipboard() {
+            const nameElements = namesList.querySelectorAll('span:nth-child(2)');
+            const names = Array.from(nameElements).map(el => el.textContent).join('\n');
+            
+            navigator.clipboard.writeText(names).then(() => {
+                showSuccessMessage('已成功复制所有名字到剪贴板');
+                
+                const originalText = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<i class="fa fa-check"></i><span>已复制</span>';
+                copyBtn.classList.add('text-secondary');
+                
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalText;
+                    copyBtn.classList.remove('text-secondary');
+                }, 2000);
+            }).catch(err => {
+                showErrorMessage('复制失败，请手动复制');
+                console.error('复制失败:', err);
+            });
+        }
+        
+        // 保存当前生成的所有名字
+        function saveCurrentNames() {
+            let newNames = 0;
+            
+            currentNames.forEach(name => {
+                if (!savedNames.includes(name)) {
+                    savedNames.push(name);
+                    newNames++;
+                }
+            });
+            
+            if (newNames > 0) {
+                localStorage.setItem('savedNames', JSON.stringify(savedNames));
+                renderSavedNames();
+                showSuccessMessage(`已成功保存 ${newNames} 个名字`);
+                
+                // 为所有名字添加高亮动画
+                document.querySelectorAll('#namesList > div').forEach(el => {
+                    el.classList.add('highlight');
+                });
+            } else {
+                showSuccessMessage('这些名字已经全部保存过了');
+            }
+        }
+        
+        // 保存单个名字
+        function saveSingleName(name) {
+            if (!savedNames.includes(name)) {
+                savedNames.push(name);
+                localStorage.setItem('savedNames', JSON.stringify(savedNames));
+                renderSavedNames();
+                showSuccessMessage(`已保存: ${name}`);
+                return true;
+            }
+            showSuccessMessage('这个名字已经保存过了');
+            return false;
+        }
+        
+        // 渲染保存的名字
+        function renderSavedNames() {
+            if (savedNames.length === 0) {
+                savedList.innerHTML = '<p class="col-span-full text-center text-gray-500 py-6 italic">您还没有收藏任何名字，点击"保存喜欢的名字"按钮添加</p>';
+                clearSavedBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                return;
+            }
+            
+            clearSavedBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            savedList.innerHTML = '';
+            
+            savedNames.forEach((name, index) => {
+                const nameElement = document.createElement('div');
+                nameElement.className = 'bg-gradient-to-r from-yellow-50 to-orange-50 p-4 rounded-lg border border-yellow-100 flex items-center gap-3 hover:shadow-md transition-custom';
+                nameElement.innerHTML = `
+                    <span class="bg-accent/10 text-accent w-7 h-7 rounded-full flex items-center justify-center font-medium text-sm">${index + 1}</span>
+                    <span class="font-medium">${name}</span>
+                    <button class="ml-auto text-gray-400 hover:text-red-500 transition-colors delete-saved" data-index="${index}">
+                        <i class="fa fa-trash-o"></i>
+                    </button>
+                `;
+                savedList.appendChild(nameElement);
+            });
+            
+            // 为删除按钮添加事件
+            document.querySelectorAll('.delete-saved').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    const deletedName = savedNames.splice(index, 1)[0];
+                    localStorage.setItem('savedNames', JSON.stringify(savedNames));
+                    renderSavedNames();
+                    showSuccessMessage(`已删除: ${deletedName}`);
+                });
+            });
+        }
+        
+        // 清空所有保存的名字
+        function clearSavedNames() {
+            if (savedNames.length === 0) return;
+            
+            if (confirm('确定要清空所有收藏的名字吗？此操作不可恢复。')) {
+                savedNames = [];
+                localStorage.setItem('savedNames', JSON.stringify(savedNames));
+                renderSavedNames();
+                showSuccessMessage('已清空所有收藏的名字');
+            }
+        }
+        
+        // 显示成功消息
+        function showSuccessMessage(message) {
+            successMessage.textContent = message;
+            success.classList.remove('hidden');
+            success.classList.add('fade-in');
+            
+            setTimeout(() => {
+                success.classList.add('hidden');
+            }, 3000);
+        }
+        
+        // 显示错误消息
+        function showErrorMessage(message) {
+            errorMessage.textContent = message;
+            error.classList.remove('hidden');
+            error.classList.add('fade-in');
+            
+            setTimeout(() => {
+                error.classList.add('hidden');
+            }, 3000);
+        }
+        
+        // 切换移动端菜单
+        function toggleMobileMenu() {
+            mobileMenu.classList.toggle('hidden');
+        }
+        
+        // 切换暗黑模式
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                document.body.classList.remove('from-blue-50', 'to-indigo-100');
+                document.body.classList.add('from-gray-900', 'to-gray-800', 'text-white');
+                themeToggle.innerHTML = '<i class="fa fa-sun-o text-yellow-400"></i>';
+                mobileThemeToggle.innerHTML = '<i class="fa fa-sun-o text-yellow-400"></i><span>切换亮色模式</span>';
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                document.body.classList.remove('from-gray-900', 'to-gray-800', 'text-white');
+                document.body.classList.add('from-blue-50', 'to-indigo-100', 'text-dark');
+                themeToggle.innerHTML = '<i class="fa fa-moon-o text-gray-600"></i>';
+                mobileThemeToggle.innerHTML = '<i class="fa fa-moon-o text-gray-600"></i><span>切换暗色模式</span>';
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        }
+        
+        // 检查暗黑模式设置
+        function checkDarkMode() {
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                toggleDarkMode(); // 触发一次切换以应用暗色模式
+            }
+        }
+        
+        // 回到顶部
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        
+        // 事件监听
+        generateBtn.addEventListener('click', () => {
+            const input = userInput.value.trim();
+            if (input) {
+                generateNames(input);
+            } else {
+                errorMessage.textContent = '请输入内容后再生成';
+                error.classList.remove('hidden');
+            }
+        });
+        
+        randomBtn.addEventListener('click', generateRandomNames);
+        
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                generateBtn.click();
+            }
+        });
+        
+        copyBtn.addEventListener('click', copyToClipboard);
+        
+        saveBtn.addEventListener('click', saveCurrentNames);
+        
+        anotherBtn.addEventListener('click', () => {
+            const input = userInput.value.trim();
+            if (input) {
+                generateNames(input);
+            } else {
+                generateRandomNames();
+            }
+        });
+        
+        clearSavedBtn.addEventListener('click', clearSavedNames);
+        
+        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+        
+        themeToggle.addEventListener('click', toggleDarkMode);
+        mobileThemeToggle.addEventListener('click', () => {
+            toggleDarkMode();
+            toggleMobileMenu();
+        });
+        
+        backToTop.addEventListener('click', scrollToTop);
+        
+        // 类型选择按钮事件
+        typeFood.addEventListener('click', () => switchType('food'));
+        typePerson.addEventListener('click', () => switchType('person'));
+        
+        // 页面滚动事件
+        window.addEventListener('scroll', () => {
+            const scrollPosition = window.scrollY;
+            
+            // 导航栏样式变化
+            if (scrollPosition > 100) {
+                navbar.classList.add('bg-white/90', 'backdrop-blur-md', 'shadow-md', 'py-2');
+                navbar.classList.remove('py-4');
+                startBtn.classList.add('opacity-0', 'invisible');
+                startBtn.classList.remove('opacity-100', 'visible');
+                
+                // 显示回到顶部按钮
+                backToTop.classList.remove('opacity-0', 'invisible');
+                backToTop.classList.add('opacity-100', 'visible');
+            } else {
+                navbar.classList.remove('bg-white/90', 'backdrop-blur-md', 'shadow-md', 'py-2');
+                navbar.classList.add('py-4');
+                startBtn.classList.remove('opacity-0', 'invisible');
+                startBtn.classList.add('opacity-100', 'visible');
+                
+                // 隐藏回到顶部按钮
+                backToTop.classList.add('opacity-0', 'invisible');
+                backToTop.classList.remove('opacity-100', 'visible');
+            }
+            
+            // 移动端菜单自动关闭
+            if (scrollPosition > 200 && !mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.add('hidden');
+            }
+        });
+        
+        // 平滑滚动所有锚点链接
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') {
+                    scrollToTop();
+                    return;
+                }
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                    
+                    // 关闭移动菜单
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+        
+        // 初始化页面
+        window.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
